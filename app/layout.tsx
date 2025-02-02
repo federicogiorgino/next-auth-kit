@@ -1,24 +1,38 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 
-const inter = Inter({ subsets: ["latin"] });
+import { Navbar } from '@/components/navbar'
+import { ThemeProvider } from '@/components/theme-provider'
+
+import './globals.css'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "Tutopia",
-  description: "Learn by exploring",
-};
+  title: 'Tutopia',
+  description: 'Learn by exploring',
+}
 
 function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          <div className="flex min-h-screen flex-col pt-20">{children}</div>
+        </ThemeProvider>
+      </body>
     </html>
-  );
+  )
 }
 
-export default RootLayout;
+export default RootLayout
