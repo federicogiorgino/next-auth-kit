@@ -1,21 +1,13 @@
 'use client'
 
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { AuthFormHeader } from '@/components/auth-form-header'
+import { AuthFormWrapper } from '@/components/auth-form-wrapper'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
 
 import { SignInForm } from '@/app/(auth)/sign-in/_components/sign-in-form'
 
-import { AuthFormFooter } from './auth-form-footer'
-import { AuthFormHeader } from './auth-form-header'
-import { AuthFormWrapper } from './auth-form-wrapper'
 import { useModalStore } from '@/hooks/use-modal-store'
 
 function SignInModal() {

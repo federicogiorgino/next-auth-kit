@@ -1,6 +1,6 @@
 import { AuthFormWrapper } from '@/components/auth-form-wrapper'
 
-import { ResetPasswordForm } from './_components/reset-password-form'
+import { ResetPasswordForm } from '@/app/(auth)/reset-password/_components/reset-password-form'
 
 function ResetPasswordPage() {
   return (
