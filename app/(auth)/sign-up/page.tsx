@@ -2,25 +2,25 @@ import { AuthFormFooter } from '@/components/auth-form-footer'
 import { AuthFormHeader } from '@/components/auth-form-header'
 import { AuthFormWrapper } from '@/components/auth-form-wrapper'
 
-import { SignInForm } from '@/app/(auth)/sign-in/_components/sign-in-form'
+import { SignUpForm } from '@/app/(auth)/sign-up/_components/sign-up-form'
 
-function SignInPage() {
+function SignUpPage() {
   return (
     <div className="flex grow items-center justify-center p-4">
       <AuthFormWrapper>
         <AuthFormHeader
-          title="Login"
-          description="Enter your credentials below to login to your account."
+          title="Register"
+          description="Create an account to get started."
         />
-        <SignInForm />
+        <SignUpForm />
         <AuthFormFooter
-          link="/sign-up"
-          linkText="Register"
-          text="Don't have an account"
+          link="/sign-in"
+          linkText="Login"
+          text="Already have an account?"
         />
       </AuthFormWrapper>
     </div>
   )
 }
 
-export default SignInPage
+export default SignUpPage

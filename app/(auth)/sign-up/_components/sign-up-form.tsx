@@ -18,29 +18,23 @@ import { Icons } from '@/components/ui/icons'
 import { Input } from '@/components/ui/input'
 import { LoadingButton } from '@/components/ui/loading-button'
 
-import { signInSchema } from '@/schemas/auth'
-import { SignInValues } from '@/types/auth'
+import { signInSchema, signUpSchema } from '@/schemas/auth'
+import { SignInValues, SignUpValues } from '@/types/auth'
 
-type SignInFormProps = {
-  variant?: 'default' | 'form'
-}
-
-function SignInForm({ variant = 'default' }: SignInFormProps) {
+function SignUpForm() {
   const [isVisible, setIsVisible] = useState<boolean>(false)
 
   const [pending, setPending] = useState<boolean>(false)
-  const [pendingGithub, setPendingGithub] = useState<boolean>(false)
   const toggleVisibility = () => setIsVisible((prevState) => !prevState)
 
-  const form = useForm<SignInValues>({
-    resolver: zodResolver(signInSchema),
+  const form = useForm<SignUpValues>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
     },
   })
-
-  const handleSignInWithGithub = () => {}
 
   const onSubmit = (values: SignInValues) => {}
 
@@ -51,6 +45,19 @@ function SignInForm({ variant = 'default' }: SignInFormProps) {
         className="flex flex-col gap-6"
       >
         <div className="grid gap-6">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="John Doe" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
@@ -70,17 +77,7 @@ function SignInForm({ variant = 'default' }: SignInFormProps) {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center justify-between">
-                  <FormLabel>Password</FormLabel>
-                  <div className="text-right text-sm">
-                    <Link
-                      href="/forgot-password"
-                      className="font-medium text-primary underline"
-                    >
-                      Forgot password?
-                    </Link>
-                  </div>
-                </div>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
@@ -116,21 +113,7 @@ function SignInForm({ variant = 'default' }: SignInFormProps) {
             loading={pending}
             disabled={!form.formState.isValid}
           >
-            Login
-          </LoadingButton>
-          <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-            <span className="relative z-10 bg-background px-2 text-muted-foreground">
-              Or continue with
-            </span>
-          </div>
-          <LoadingButton
-            variant="outline"
-            className="flex w-full items-center gap-2"
-            onClick={handleSignInWithGithub}
-            loading={pendingGithub}
-          >
-            <Icons.github className="h-5 w-5" />
-            Login with GitHub
+            Register
           </LoadingButton>
         </div>
       </form>
@@ -138,4 +121,4 @@ function SignInForm({ variant = 'default' }: SignInFormProps) {
   )
 }
 
-export { SignInForm }
+export { SignUpForm }
