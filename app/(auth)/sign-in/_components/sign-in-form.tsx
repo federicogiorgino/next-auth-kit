@@ -22,7 +22,7 @@ import { signInSchema } from '@/schemas/auth'
 import { SignInValues } from '@/types/auth'
 
 type SignInFormProps = {
-  variant?: 'default' | 'form'
+  variant?: 'default' | 'modal'
 }
 
 function SignInForm({ variant = 'default' }: SignInFormProps) {

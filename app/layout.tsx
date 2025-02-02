@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
 import { Navbar } from '@/components/navbar'
+import { SignInModal } from '@/components/sign-in-modal'
 import { ThemeProvider } from '@/components/theme-provider'
 
 import './globals.css'
@@ -28,6 +29,7 @@ function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
+          <SignInModal />
           <div className="relative flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
             {children}
           </div>

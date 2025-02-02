@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import { SignInModalButton } from '@/components/sign-in-modal-button'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Icons } from '@/components/ui/icons'
 
@@ -15,6 +16,7 @@ function Navbar() {
             </span>
           </Link>
           <div className="flex items-center space-x-4">
+            <SignInModalButton />
             <ThemeToggle />
           </div>
         </div>
