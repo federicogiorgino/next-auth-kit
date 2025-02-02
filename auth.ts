@@ -3,8 +3,7 @@ import { prismaAdapter } from 'better-auth/adapters/prisma'
 
 import prisma from '@/lib/prisma'
 
-import { createResetPasswordEmail } from '@/app/(auth)/reset-password/_components/reset-password-email'
-
+import { createVerificationMail } from './app/(auth)/sign-up/_components/verification-email'
 import { sendEmail } from '@/actions/email'
 
 export const auth = betterAuth({
@@ -22,7 +21,7 @@ export const auth = betterAuth({
       await sendEmail({
         to: user.email,
         subject: 'Verify your email address',
-        template: createResetPasswordEmail({
+        template: createVerificationMail({
           username: user.name,
           confirmationLink: verificationUrl,
         }),

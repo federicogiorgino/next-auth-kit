@@ -14,3 +14,13 @@ export function getFromEmail() {
 export function getToEmail(to: string) {
   return process.env.NODE_ENV === 'development' ? 'delivered@resend.dev' : to
 }
+
+export function getInitials(fullName: string): string {
+  const nameParts = fullName.split(' ')
+
+  const initials = nameParts
+    .map((part) => part.charAt(0).toUpperCase())
+    .join('')
+
+  return initials
+}
