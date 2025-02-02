@@ -28,7 +28,9 @@ function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
-          <div className="flex min-h-screen flex-col pt-20">{children}</div>
+          <div className="relative flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>
