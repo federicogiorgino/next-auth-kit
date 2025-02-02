@@ -6,7 +6,6 @@ import prisma from '@/lib/prisma'
 import { createResetPasswordEmail } from '@/app/(auth)/reset-password/_components/reset-password-email'
 
 import { sendEmail } from '@/actions/email'
-import env from '@/schemas/env'
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, { provider: 'postgresql' }),
@@ -18,7 +17,7 @@ export const auth = betterAuth({
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, token }) => {
-      const verificationUrl = `${env.BETTER_AUTH_URL}/api/auth/verify-email?token=${token}&callbackURL=${env.EMAIL_VERIFICATION_CALLBACK_URL}`
+      const verificationUrl = `${process.env.BETTER_AUTH_URL}/api/auth/verify-email?token=${token}&callbackURL=${process.env.EMAIL_VERIFICATION_CALLBACK_URL}`
 
       await sendEmail({
         to: user.email,
