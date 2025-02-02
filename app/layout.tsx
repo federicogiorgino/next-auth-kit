@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import { Navbar } from '@/components/navbar'
 import { SignInModal } from '@/components/sign-in-modal'
 import { ThemeProvider } from '@/components/theme-provider'
+import { Toaster } from '@/components/ui/toaster'
 
 import './globals.css'
 
@@ -30,6 +31,7 @@ function RootLayout({
         >
           <Navbar />
           <SignInModal />
+          <Toaster />
           <div className="relative flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
             {children}
           </div>

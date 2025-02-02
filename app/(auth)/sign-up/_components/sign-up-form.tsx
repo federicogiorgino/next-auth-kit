@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff } from 'lucide-react'
-import Link from 'next/link'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -14,17 +13,21 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Icons } from '@/components/ui/icons'
 import { Input } from '@/components/ui/input'
 import { LoadingButton } from '@/components/ui/loading-button'
 
-import { signInSchema, signUpSchema } from '@/schemas/auth'
-import { SignInValues, SignUpValues } from '@/types/auth'
+import { authClient } from '@/auth-client'
+import { useToast } from '@/hooks/use-toast'
+import { signUpSchema } from '@/schemas/auth'
+import { SignUpValues } from '@/types/auth'
 
 function SignUpForm() {
   const [isVisible, setIsVisible] = useState<boolean>(false)
 
   const [pending, setPending] = useState<boolean>(false)
+
+  const { toast } = useToast()
+
   const toggleVisibility = () => setIsVisible((prevState) => !prevState)
 
   const form = useForm<SignUpValues>({
@@ -36,8 +39,35 @@ function SignUpForm() {
     },
   })
 
-  const onSubmit = (values: SignInValues) => {}
-
+  const onSubmit = async (values: SignUpValues) => {
+    await authClient.signUp.email(
+      {
+        email: values.email,
+        password: values.password,
+        name: values.name,
+      },
+      {
+        onRequest: () => {
+          setPending(true)
+        },
+        onSuccess: () => {
+          toast({
+            title: 'Account created',
+            description:
+              'Your account has been created. Check your email for a verification link.',
+          })
+        },
+        onError: (ctx) => {
+          console.log('error', ctx)
+          toast({
+            title: 'Something went wrong',
+            description: ctx.error.message ?? 'Something went wrong.',
+          })
+        },
+      }
+    )
+    setPending(false)
+  }
   return (
     <Form {...form}>
       <form
