@@ -1,3 +1,4 @@
+import { AuthFormFooter } from '@/components/auth-form-footer'
 import { AuthFormHeader } from '@/components/auth-form-header'
 import { AuthFormWrapper } from '@/components/auth-form-wrapper'
 
@@ -12,6 +13,11 @@ function ForgotPasswordPage() {
           title="Forgot Password"
         />
         <ForgotPasswordForm />
+        <AuthFormFooter
+          text="Remember your password?"
+          link="/sign-in"
+          linkText="Sign in"
+        />
       </AuthFormWrapper>
     </div>
   )
