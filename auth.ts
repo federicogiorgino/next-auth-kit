@@ -3,14 +3,29 @@ import { prismaAdapter } from 'better-auth/adapters/prisma'
 
 import prisma from '@/lib/prisma'
 
-import { createVerificationMail } from './app/(auth)/sign-up/_components/verification-email'
+import { createResetPasswordEmail } from '@/app/(auth)/reset-password/_components/reset-password-email'
+import { createVerificationMail } from '@/app/(auth)/sign-up/_components/verification-email'
+
 import { sendEmail } from '@/actions/email'
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, { provider: 'postgresql' }),
+  session: { expiresIn: 60 * 60 * 24 * 7, updateAge: 60 * 60 * 24 },
+
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
+    resetPasswordTokenExpiresIn: 60 * 10,
+    sendResetPassword: async ({ user, url, token }) => {
+      await sendEmail({
+        to: user.email,
+        subject: 'Reset your password',
+        template: createResetPasswordEmail({
+          username: user.name,
+          confirmationLink: url,
+        }),
+      })
+    },
   },
   emailVerification: {
     sendOnSignUp: true,

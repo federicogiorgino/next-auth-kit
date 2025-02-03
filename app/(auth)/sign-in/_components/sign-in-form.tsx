@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ErrorContext } from 'better-auth/react'
 import { Eye, EyeOff } from 'lucide-react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -135,12 +134,19 @@ function SignInForm({ variant = 'default' }: SignInFormProps) {
                 <div className="flex items-center justify-between">
                   <FormLabel>Password</FormLabel>
                   <div className="text-right text-sm">
-                    <Link
-                      href="/forgot-password"
-                      className="font-medium text-primary underline"
+                    <p
+                      className="cursor-pointer font-medium text-primary underline"
+                      onClick={() => {
+                        if ((variant = 'modal')) {
+                          closeModal()
+                          router.push('/forgot-password')
+                        } else {
+                          router.push('/forgot-password')
+                        }
+                      }}
                     >
                       Forgot password?
-                    </Link>
+                    </p>
                   </div>
                 </div>
                 <FormControl>

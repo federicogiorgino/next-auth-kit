@@ -20,6 +20,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { LoadingButton } from '@/components/ui/loading-button'
 
+import { authClient } from '@/auth-client'
+import { useToast } from '@/hooks/use-toast'
 import { resetPasswordSchema } from '@/schemas/auth'
 import { ResetPasswordValues } from '@/types/auth'
 
@@ -28,6 +30,7 @@ function ResetPasswordForm() {
   const searchParams = useSearchParams()
   const error = searchParams.get('error')
   const [pending, setPending] = useState(false)
+  const { toast } = useToast()
 
   const form = useForm<ResetPasswordValues>({
     resolver: zodResolver(resetPasswordSchema),
@@ -37,9 +40,28 @@ function ResetPasswordForm() {
     },
   })
 
-  const onSubmit = async (data: ResetPasswordValues) => {}
-
-  if (error === 'INVALID_TOKEN') {
+  const onSubmit = async (data: ResetPasswordValues) => {
+    setPending(true)
+    const { error } = await authClient.resetPassword({
+      newPassword: data.password,
+    })
+    if (error) {
+      console.log(error)
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      })
+    } else {
+      toast({
+        title: 'Success',
+        description: 'Password reset successful. Login to continue.',
+      })
+      router.push('/sign-in')
+    }
+    setPending(false)
+  }
+  if (error === 'invalid_token') {
     return (
       <>
         <div className="text-center">
