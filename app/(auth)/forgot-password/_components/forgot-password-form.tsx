@@ -15,12 +15,14 @@ import {
 import { Input } from '@/components/ui/input'
 import { LoadingButton } from '@/components/ui/loading-button'
 
+import { authClient } from '@/auth-client'
+import { useToast } from '@/hooks/use-toast'
 import { forgotPasswordSchema } from '@/schemas/auth'
 import { ForgotPasswordValues } from '@/types/auth'
 
 function ForgotPasswordForm() {
   const [pending, setPending] = useState(false)
-
+  const { toast } = useToast()
   const form = useForm<ForgotPasswordValues>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
@@ -28,8 +30,27 @@ function ForgotPasswordForm() {
     },
   })
 
-  const onSubmit = (values: ForgotPasswordValues) => {
-    console.log(values)
+  const onSubmit = async (data: ForgotPasswordValues) => {
+    setPending(true)
+    const { error } = await authClient.forgetPassword({
+      email: data.email,
+      redirectTo: '/reset-password',
+    })
+
+    if (error) {
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      })
+    } else {
+      toast({
+        title: 'Success',
+        description:
+          'If an account exists with this email, you will receive a password reset link.',
+      })
+    }
+    setPending(false)
   }
 
   return (

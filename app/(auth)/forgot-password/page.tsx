@@ -16,7 +16,7 @@ function ForgotPasswordPage() {
         <AuthFormFooter
           text="Remember your password?"
           link="/sign-in"
-          linkText="Sign in"
+          linkText="Login"
         />
       </AuthFormWrapper>
     </div>
