@@ -1,5 +1,6 @@
 import { BetterAuthOptions, betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
+import { admin } from 'better-auth/plugins/admin'
 
 import prisma from '@/lib/prisma'
 
@@ -49,6 +50,7 @@ export const auth = betterAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
     },
   },
+  plugins: [admin()],
 } satisfies BetterAuthOptions)
 
 export type Session = typeof auth.$Infer.Session
