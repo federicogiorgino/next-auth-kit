@@ -47,8 +47,35 @@ function SignInForm({ variant = 'default' }: SignInFormProps) {
     },
   })
 
-  const handleSignInWithGithub = () => {}
-
+  const handleSignInWithGithub = async () => {
+    await authClient.signIn.social(
+      {
+        provider: 'github',
+      },
+      {
+        onRequest: () => {
+          setPendingGithub(true)
+        },
+        onSuccess: async () => {
+          if (variant === 'modal') {
+            closeModal()
+            router.refresh()
+          } else {
+            router.push('/')
+            router.refresh()
+          }
+        },
+        onError: (ctx: ErrorContext) => {
+          toast({
+            title: 'Something went wrong',
+            description: ctx.error.message ?? 'Something went wrong.',
+            variant: 'destructive',
+          })
+        },
+      }
+    )
+    setPendingGithub(false)
+  }
   const onSubmit = async (values: SignInValues) => {
     await authClient.signIn.email(
       {
