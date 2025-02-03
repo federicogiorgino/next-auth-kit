@@ -2,7 +2,7 @@
 
 import { Resend } from 'resend'
 
-import { getFromEmail, getToEmail } from '@/lib/utils'
+import { getErrorMessage, getFromEmail, getToEmail } from '@/lib/utils'
 
 import { SendEmailParams } from '@/types/mail'
 
@@ -26,6 +26,7 @@ export async function sendEmail({ to, subject, template }: SendEmailParams) {
 
     return { success: true, message: 'Email sent successfully' }
   } catch (error) {
-    return { success: false, message: 'Failed to send email' }
+    console.error(error)
+    return { sucess: false, error: getErrorMessage(error) }
   }
 }

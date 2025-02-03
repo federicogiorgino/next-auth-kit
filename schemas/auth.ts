@@ -39,3 +39,13 @@ export const resetPasswordSchema = z
     message: 'Password do not match',
     path: ['confirmPassword'],
   })
+
+export const onboardingSchema = z.object({
+  username: z.string().min(2, {
+    message: 'Username must be at least 2 characters.',
+  }),
+
+  bio: z.string().max(160).optional(),
+  location: z.string().max(100).optional(),
+  githubUsername: z.string().max(39).optional(),
+})

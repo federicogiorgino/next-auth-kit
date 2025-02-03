@@ -25,7 +25,10 @@ async function Navbar() {
             <ThemeToggle />
             {session ? (
               <>
-                <UserDropdown user={session.user} isAdmin={false} />
+                <UserDropdown
+                  user={session.user}
+                  isAdmin={session.user.role === 'admin'}
+                />
               </>
             ) : (
               <SignInModalButton />
