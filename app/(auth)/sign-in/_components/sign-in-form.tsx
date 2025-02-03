@@ -1,8 +1,10 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ErrorContext } from 'better-auth/react'
 import { Eye, EyeOff } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -18,6 +20,9 @@ import { Icons } from '@/components/ui/icons'
 import { Input } from '@/components/ui/input'
 import { LoadingButton } from '@/components/ui/loading-button'
 
+import { authClient } from '@/auth-client'
+import { useModalStore } from '@/hooks/use-modal-store'
+import { useToast } from '@/hooks/use-toast'
 import { signInSchema } from '@/schemas/auth'
 import { SignInValues } from '@/types/auth'
 
@@ -26,11 +31,13 @@ type SignInFormProps = {
 }
 
 function SignInForm({ variant = 'default' }: SignInFormProps) {
+  const { closeModal } = useModalStore()
   const [isVisible, setIsVisible] = useState<boolean>(false)
-
+  const router = useRouter()
   const [pending, setPending] = useState<boolean>(false)
   const [pendingGithub, setPendingGithub] = useState<boolean>(false)
   const toggleVisibility = () => setIsVisible((prevState) => !prevState)
+  const { toast } = useToast()
 
   const form = useForm<SignInValues>({
     resolver: zodResolver(signInSchema),
@@ -42,8 +49,36 @@ function SignInForm({ variant = 'default' }: SignInFormProps) {
 
   const handleSignInWithGithub = () => {}
 
-  const onSubmit = (values: SignInValues) => {}
-
+  const onSubmit = async (values: SignInValues) => {
+    await authClient.signIn.email(
+      {
+        email: values.email,
+        password: values.password,
+      },
+      {
+        onRequest: () => {
+          setPending(true)
+        },
+        onSuccess: async () => {
+          if (variant === 'modal') {
+            closeModal()
+            router.refresh()
+          } else {
+            router.push('/')
+            router.refresh()
+          }
+        },
+        onError: (ctx: ErrorContext) => {
+          toast({
+            title: 'Something went wrong',
+            description: ctx.error.message ?? 'Something went wrong.',
+            variant: 'destructive',
+          })
+        },
+      }
+    )
+    setPending(false)
+  }
   return (
     <Form {...form}>
       <form
