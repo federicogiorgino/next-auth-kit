@@ -17,7 +17,7 @@ async function Navbar() {
           <Link href="/" className="flex items-center space-x-2">
             <Icons.logo className="h-7 w-7 text-primary" />
             <span className="select-none text-lg font-bold">
-              tut<span className="text-primary">opia</span>
+              NEXT<span className="text-primary">AUTH</span>
             </span>
           </Link>
 
